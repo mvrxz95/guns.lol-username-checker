@@ -328,7 +328,7 @@ try:
     check_user_status(
 
         3,                  # 3 caractères
-        1,                  # 1 seconde entre les requêtes
+        3,                  # 3 seconde entre les requêtes
         None,               # pas de customlist
         True,               # filtre premium
         False,              # ne sauvegarde rien
