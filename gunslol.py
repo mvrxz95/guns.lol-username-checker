@@ -322,58 +322,19 @@ def get_input(prompt, type_=str, validation=None, error_msg="Please enter a vali
             exit()
 
 try:
-    Anime.Fade(Center.Center(intro_text), purple_static, Colorate.Vertical, interval=.035, enter=True)
-    
-    letter_count = get_input(
-        "How many letter usernames should be checked? (Example: 5): ",
-        type_=int,
-        validation=lambda x: x > 0,
-        error_msg="Please enter a valid value."
+
+    WEBHOOK_URL = os.environ["WEBHOOK_URL"]
+
+    check_user_status(
+
+        3,                  # 3 caractères
+        1,                  # 1 seconde entre les requêtes
+        None,               # pas de customlist
+        True,               # filtre premium
+        False,              # ne sauvegarde rien
+        WEBHOOK_URL         # webhook discord
+
     )
 
-    interval = get_input(
-        "Delay (in seconds *recommended 0*): ",
-        type_=float,
-        validation=lambda x: x >= 0,
-        error_msg="Please enter a valid value."
-    )
-
-    use_customlist = get_input("Use customlist.txt? (Y/N): ", type_=bool, error_msg="Please enter Y or N.")
-    customlist = None
-
-    if use_customlist:
-        try:
-            with open("customlist.txt", "r", encoding="utf-8") as file:
-                customlist = [line.strip() for line in file if line.strip() and not line.strip().startswith("//")]
-            if not customlist:
-                print(f"{Fore.YELLOW}customlist.txt is empty. Switching to random mode.{Fore.RESET}")
-                use_customlist = False
-            else:
-                print(f"{Fore.GREEN}{len(customlist)} usernames loaded from customlist.txt.{Fore.RESET}")
-        except FileNotFoundError:
-            print(f"{Fore.RED}customlist.txt not found. Switching to random mode.{Fore.RESET}")
-            use_customlist = False
-
-    filter_premium = get_input("Filter out usernames requiring Premium? (Starts/ends with '.', '-', '_') [Y/N]: ", type_=bool, error_msg="Please enter Y or N.")
-
-    save_to_file = get_input("Should unclaimed usernames be saved to unclaimed.txt? (Y/N): ", type_=bool, error_msg="Please enter Y or N.")
-    
-    use_webhook = get_input("Should unclaimed usernames be sent to a Discord webhook? (Y/N): ", type_=bool, error_msg="Please enter Y or N.")
-    webhook_url = None
-    if use_webhook:
-        webhook_url = get_input(
-            "Enter your Discord webhook URL: ",
-            validation=lambda x: x.startswith("https://discord.com/api/webhooks/") or x.startswith("https://discordapp.com/api/webhooks/"),
-            error_msg="Please enter a valid Discord webhook URL (https://discord.com/api/webhooks/...)."
-        )
-
-    print()
-    check_user_status(letter_count, interval, customlist, filter_premium, save_to_file, webhook_url)
 except KeyboardInterrupt:
-    print(f"\n{Fore.YELLOW}Program terminated.{Fore.RESET}")
-except Exception as e:
-    print(f"{Fore.RED}An unexpected error occurred: {e}{Fore.RESET}")
-finally:
-    if _launched_by_double_click:
-        print(f"\n{Fore.CYAN}Press any key to exit...{Fore.RESET}")
-        os.system("pause >nul")
+    print("\nProgram terminated.")
