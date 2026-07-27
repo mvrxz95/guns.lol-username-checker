@@ -265,10 +265,14 @@ def check_user_status(letter_count, interval, customlist=None, filter_premium=Fa
                 
                     if webhook_url:
                         embed = {
-                            "title": f"Available: {current_suffix} (https://guns.lol/{current_suffix})",
-                            "description": f"github.com/efekrbas",
-                            "color": 0x9B59B6
-                        }
+    "title": "USERNAME FOUND 🎉",
+    "description": f"""{current_suffix}
+
+https://guns.lol/{current_suffix}
+
+discord.gg/mvrshop""",
+    "color": 0x9B59B6
+}
                         payload = {"embeds": [embed]}
                         try:
                             requests.post(webhook_url, json=payload)
